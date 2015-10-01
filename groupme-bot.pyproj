@@ -5,13 +5,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>acf0b880-6442-4947-8c0f-9f073a8d4896</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>startbot.py</StartupFile>
+    <StartupFile>./src/startbot.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>groupme-bot</Name>
     <RootNamespace>groupme-bot</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,19 +22,26 @@
     <DebugSymbols>true</DebugSymbols>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="kappa.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="stats.py" />
-    <Compile Include="startbot.py">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="assets\" />
+    <Folder Include="src\" />
+    <Folder Include="src\__pycache__\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\kappa.png" />
+    <Content Include="src\__pycache__\kappa.cpython-34.pyc" />
+    <Content Include="src\__pycache__\stats.cpython-34.pyc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\kappa.py" />
+    <Compile Include="src\randomevents.py" />
+    <Compile Include="src\startbot.py" />
+    <Compile Include="src\stats.py" />
+  </ItemGroup>
   <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
   <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

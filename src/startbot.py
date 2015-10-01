@@ -1,7 +1,7 @@
-import groupy, time, sys
+﻿import groupy, time, sys
 from groupy import Bot, Group
 
-import stats, kappa
+import stats, kappa, randomevents
 
 g_thisGroup = None
 g_thisBot = None
@@ -16,13 +16,22 @@ def main(groupName):
     while True:
         if alreadyParsed == False:
             for message in cur:
-                print('recieved message {0} ({1})\n'.format(message.text, message.created_at))
+                requester = message.name.split(' ')[0]
+                print('recieved message {0} ({1}) from \n'.format(message.text, message.created_at, requester))
                 if message.text[0] == '!':
                     command = message.text.split(' ')
                     if command[0] == '!stats':
                         stats.stats(g_thisBot, g_thisGroup)
                     elif command[0] == '!kappa':
                         kappa.kappa(g_thisBot)
+                    elif command[0] == '!roll':
+                        try:
+                            range = int(command[1])
+                            randomevents.roll(g_thisBot, requester, range=range+1)
+                        except:
+                            randomevents.roll(g_thisBot, requester)
+                    elif command[0] == '!flip':
+                        randomevents.flip(g_thisBot, requester)
         alreadyParsed = True
         print('sleeping for 5 \n')
         time.sleep(5)
@@ -66,4 +75,4 @@ def refreshBot():
     
 
 if __name__ == '__main__':
-    main('Brothers')
+    main(sys.argv[1])
