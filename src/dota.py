@@ -1,4 +1,4 @@
-﻿import json, groupy, urllib
+﻿import json, groupy, urllib, time
 from groupy import Bot
 
 steam_dict = {'Patrick': '23384658', 'Christopher': '84083298', 'Kevin': '72842908', 'Joshua': '133364520'}
@@ -14,6 +14,7 @@ def lastMatch(bot, requester):
 
         match_id = jsonObj['result']['matches'][0]['match_id']
 
+        time.sleep(1)
         request_url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key={0}&match_id={1}".format(steam_api_key, match_id)
         with urllib.request.urlopen(request_url) as f:
             response = f.read().decode('utf-8')

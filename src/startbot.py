@@ -17,7 +17,7 @@ def main(groupName):
         if alreadyParsed == False:
             for message in cur:
                 requester = message.name.split(' ')[0]
-                print('recieved message {0} ({1}) from'.format(message.text.encode('utf-8'), message.created_at, requester))
+                print('recieved message {0} ({1}) from {2}'.format(message.text.encode('utf-8'), message.created_at, requester))
                 if message.text[0] == '!':
                     command = message.text.split(' ')
                     if command[0] == '!stats':
@@ -42,6 +42,8 @@ def main(groupName):
                         randomevents.flip(g_thisBot, requester)
                     elif command[0] == '!lastmatch':
                         dota.lastMatch(g_thisBot, requester)
+                    elif command[0] == '!stop':
+                        sys.exit(0)
         alreadyParsed = True
         print('sleeping for 5')
         time.sleep(5)
