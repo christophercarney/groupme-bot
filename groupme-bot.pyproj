@@ -43,7 +43,7 @@
     <Compile Include="src\dota.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\kappa.py" />
+    <Compile Include="src\twitch.py" />
     <Compile Include="src\randomevents.py" />
     <Compile Include="src\startbot.py" />
     <Compile Include="src\stats.py" />

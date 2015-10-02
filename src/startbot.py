@@ -1,7 +1,7 @@
 ﻿import groupy, time, sys
 from groupy import Bot, Group
 
-import stats, kappa, randomevents, dota
+import stats, twitch, randomevents, dota
 
 g_thisGroup = None
 g_thisBot = None
@@ -17,13 +17,21 @@ def main(groupName):
         if alreadyParsed == False:
             for message in cur:
                 requester = message.name.split(' ')[0]
-                print('recieved message {0} ({1}) from \n'.format(message.text, message.created_at, requester))
+                print('recieved message {0} ({1}) from'.format(message.text.encode('utf-8'), message.created_at, requester))
                 if message.text[0] == '!':
                     command = message.text.split(' ')
                     if command[0] == '!stats':
                         stats.stats(g_thisBot, g_thisGroup)
                     elif command[0] == '!kappa':
-                        kappa.kappa(g_thisBot)
+                        twitch.kappa(g_thisBot)
+                    elif command[0] == '!biblethump':
+                        twitch.biblethump(g_thisBot)
+                    elif command[0] == '!kreygasm':
+                        twitch.kreygasm(g_thisBot)
+                    elif command[0] == '!elegiggle':
+                        twitch.elegiggle(g_thisBot)
+                    elif command[0] == '!dansgame':
+                        twitch.dansgame(g_thisBot)
                     elif command[0] == '!roll':
                         try:
                             range = int(command[1])
@@ -35,7 +43,7 @@ def main(groupName):
                     elif command[0] == '!lastmatch':
                         dota.lastMatch(g_thisBot, requester)
         alreadyParsed = True
-        print('sleeping for 5 \n')
+        print('sleeping for 5')
         time.sleep(5)
         try:
             refreshGroup(groupName)
@@ -44,7 +52,7 @@ def main(groupName):
             if (new_messages - start_messages) > 0:
                 cur = cur.newer()
                 start_messages = new_messages
-                print('retrieved {0} new messages \n'.format(len(cur)))
+                print('retrieved {0} new messages'.format(len(cur)))
                 alreadyParsed = False
         except Exception as e:
             print(e)
