@@ -1,6 +1,8 @@
 ﻿import json, groupy, urllib
 from groupy import Bot
 
+# Testing
+
 steam_dict = {'Patrick': '23384658', 'Christopher': '84083298', 'Kevin': '72842908', 'Joshua': '133364520'}
 
 def lastMatch(bot, requester):
