@@ -1,10 +1,11 @@
 ﻿import groupy, time, sys
 from groupy import Bot, Group
 
-import stats, twitch, randomevents, dota
+import stats, twitch, randomevents, dota, utils
 
 g_thisGroup = None
 g_thisBot = None
+g_admins = ['Christopher', 'Patrick']
 
 def main(groupName):
     refreshGroup(groupName)
@@ -41,9 +42,24 @@ def main(groupName):
                     elif command[0] == '!flip':
                         randomevents.flip(g_thisBot, requester)
                     elif command[0] == '!lastmatch':
-                        dota.lastMatch(g_thisBot, requester)
+                        if '-u' in message.text:
+                            try:
+                                dota.lastMatch(g_thisBot, command[2])
+                            except:
+                                g_thisBot.post("Couldn't understand command:{0} {1} {2}, please see !commands for usage".format(command[0], command[1], command[2]))
+                        else:
+                            dota.lastMatch(g_thisBot, requester)
+                    elif command[0] == '!register':
+                        try:
+                            dota.registerId(command[1], command[2], g_thisBot)
+                        except:
+                            g_thisBot.post('Couldn\'t understand !register command, use !commands for usages')
+                    elif command[0] == '!commands':
+                        utils.commands(g_thisBot)
+                    elif command[0] == '!thanks':
+                        utils.thanks(g_thisBot, requester)
                     elif command[0] == '!stop':
-                        sys.exit(0)
+                        sys.exit(0) if requester in g_admins else None
         alreadyParsed = True
         print('sleeping for 5')
         time.sleep(5)

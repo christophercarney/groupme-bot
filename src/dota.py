@@ -1,10 +1,10 @@
 ﻿import json, groupy, urllib, time
 from groupy import Bot
 
-steam_dict = {'Patrick': '23384658', 'Christopher': '84083298', 'Kevin': '72842908', 'Joshua': '133364520'}
-
 def lastMatch(bot, requester):
     try:
+        steam_dict = populateSteamIds()
+
         steam_api_key = getAPIKey()
         request_url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key={0}&account_id={1}&matches_requested=1".format(steam_api_key, steam_dict[requester])
         with urllib.request.urlopen(request_url) as f:
@@ -12,7 +12,11 @@ def lastMatch(bot, requester):
 
         jsonObj = json.loads(str(response))
 
-        match_id = jsonObj['result']['matches'][0]['match_id']
+        if jsonObj['result']['status'] == 15:
+            reportFailure(bot, requester, jsonObj['result']['statusDetail'])
+            return
+        else:
+            match_id = jsonObj['result']['matches'][0]['match_id']
 
         time.sleep(1)
         request_url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key={0}&match_id={1}".format(steam_api_key, match_id)
@@ -55,7 +59,7 @@ def lastMatch(bot, requester):
         return
 
 def reportFailure(bot, requester, exception):
-    bot.post("Sorry {0}, I couldn't retrieve your last match (Unrecognized user, game mode, bad request, or steam api down). [{1}]".format(requester, exception))
+    bot.post("Sorry, I couldn't retrieve {0}'s last match (unrecognized user, game mode, bad request, or steam api down). [{1}]".format(requester, exception))
 
 def getDurationString(seconds):
     m, s = divmod(seconds, 60)
@@ -74,4 +78,21 @@ def getHeroNameFromId(id):
 def getAPIKey():
     f = open('../.steam.key', 'r')
     return f.readline()
+
+def populateSteamIds():
+    f = open('../assets/steamids.txt', 'r')
+    input = f.readline().split(' ')
+    dict = {}
+
+    for i in range(len(input) - 1):
+        dict[input[i]] = input[i+1]
+
+    return dict
+
+def registerId(name, steamid, bot):
+    f = open('../assets/steamids.txt', 'a')
+    f.write(' {0} {1}'.format(name, steamid))
+    f.close()
+
+    bot.post("Steam ID {0} has been successfully registered as {1}".format(steamid, name))
     

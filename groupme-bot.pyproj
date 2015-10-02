@@ -47,6 +47,9 @@
     <Compile Include="src\randomevents.py" />
     <Compile Include="src\startbot.py" />
     <Compile Include="src\stats.py" />
+    <Compile Include="src\utils.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
   <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
