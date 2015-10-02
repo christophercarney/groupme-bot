@@ -13,6 +13,9 @@
     <Name>groupme-bot</Name>
     <RootNamespace>groupme-bot</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>test test</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +40,9 @@
     <Content Include="src\__pycache__\stats.cpython-34.pyc" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\dota.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\kappa.py" />
     <Compile Include="src\randomevents.py" />
     <Compile Include="src\startbot.py" />

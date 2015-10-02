@@ -1,7 +1,7 @@
 ﻿import groupy, time, sys
 from groupy import Bot, Group
 
-import stats, kappa, randomevents
+import stats, kappa, randomevents, dota
 
 g_thisGroup = None
 g_thisBot = None
@@ -32,6 +32,8 @@ def main(groupName):
                             randomevents.roll(g_thisBot, requester)
                     elif command[0] == '!flip':
                         randomevents.flip(g_thisBot, requester)
+                    elif command[0] == '!lastmatch':
+                        dota.lastMatch(g_thisBot, requester)
         alreadyParsed = True
         print('sleeping for 5 \n')
         time.sleep(5)
