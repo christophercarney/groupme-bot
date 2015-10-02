@@ -63,7 +63,6 @@ def refreshGroup(groupName):
 
 def refreshBot():
     bots = Bot.list()
-
     for bot in bots:
         if g_thisGroup.id == bot.gorup_id:
             global g_thisBot
@@ -73,8 +72,6 @@ def refreshBot():
     if g_thisBot is None:
         print("Cannot find bot for group {0} \n".format(groupName))
         sys.exit(0)
-
-    
 
 if __name__ == '__main__':
     main(sys.argv[1])

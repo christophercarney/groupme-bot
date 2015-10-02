@@ -8,7 +8,7 @@
     <StartupFile>./src/startbot.py</StartupFile>
     <SearchPath>
     </SearchPath>
-    <WorkingDirectory>.</WorkingDirectory>
+    <WorkingDirectory>./src/</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>groupme-bot</Name>
     <RootNamespace>groupme-bot</RootNamespace>

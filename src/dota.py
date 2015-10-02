@@ -1,4 +1,4 @@
-import json, groupy, urllib
+﻿import json, groupy, urllib
 from groupy import Bot
 
 steam_dict = {'Patrick': '23384658', 'Christopher': '84083298', 'Kevin': '72842908', 'Joshua': '133364520'}
@@ -50,11 +50,11 @@ def lastMatch(bot, requester):
                  requester, hero, duration, kills, deaths, assists, last_hits, denies, xpm, gpm, dotabuff_url, 'won' if player_win == True else 'lost'))
                         
     except Exception as e:
-        reportFailure(bot, requester)
+        reportFailure(bot, requester, e)
         return
 
-def reportFailure(bot, requester):
-    bot.post("Sorry {0}, I couldn't retrieve your last match (Unrecognized user, game mode, bad request, or steam api down).")
+def reportFailure(bot, requester, exception):
+    bot.post("Sorry {0}, I couldn't retrieve your last match (Unrecognized user, game mode, bad request, or steam api down). [{1}]".format(requester, exception))
 
 def getDurationString(seconds):
     m, s = divmod(seconds, 60)
@@ -62,7 +62,7 @@ def getDurationString(seconds):
     return "%d:%02d:%02d" % (h, m, s)
 
 def getHeroNameFromId(id):
-    f = open('./assets/heroes.json', 'r')
+    f = open('../assets/heroes.json', 'r')
     jsonObj = json.load(f)
 
     for hero in jsonObj['heroes']:
@@ -71,6 +71,6 @@ def getHeroNameFromId(id):
     return 'Unknown Hero'
 
 def getAPIKey():
-    f = open('.steam.key', 'r')
+    f = open('../.steam.key', 'r')
     return f.readline()
     
