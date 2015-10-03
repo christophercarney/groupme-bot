@@ -14,6 +14,8 @@ def main(groupName):
     cur = g_thisGroup.messages()
     start_messages = g_thisGroup.message_count
     alreadyParsed = True
+    
+    thisTwitch = twitch.emotes()
     while True:
         if alreadyParsed == False:
             for message in cur:
@@ -24,17 +26,17 @@ def main(groupName):
                     if command[0] == '!stats':
                         stats.stats(g_thisBot, g_thisGroup)
                     elif command[0].lower() == '!kappa':
-                        twitch.kappa(g_thisBot)
+                        thisTwitch.kappa(g_thisBot)
                     elif command[0].lower() == '!elegiggle':
-                        twitch.elegiggle(g_thisBot)                        
+                        thisTwitch.elegiggle(g_thisBot)                        
                     elif command[0].lower() == '!biblethump':
-                        twitch.biblethump(g_thisBot)
+                        thisTwitch.biblethump(g_thisBot)
                     elif command[0].lower() == '!dansgame':
-                        twitch.dansgame(g_thisBot)
+                        thisTwitch.dansgame(g_thisBot)
                     elif command[0].lower() == '!kreygasm':
-                        twitch.kreygasm(g_thisBot)
+                        thisTwitch.kreygasm(g_thisBot)
                     elif command[0].lower() == '!4head':
-                        twitch.fourhead(g_thisBot)
+                        thisTwitch.fourhead(g_thisBot)
                     elif command[0] == '!roll':
                         try:
                             range = int(command[1])
