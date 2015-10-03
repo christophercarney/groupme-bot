@@ -7,10 +7,11 @@ def lastMatch(bot, requester):
 
         steam_api_key = getAPIKey()
         request_url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key={0}&account_id={1}&matches_requested=1".format(steam_api_key, steam_dict[requester])
-        with urllib.request.urlopen(request_url) as f:
-            response = f.read().decode('utf-8')
+        print('Requesting: {0}'.format(request_url))
+        response = urllib.request.urlopen(request_url)
+        last_match_info = response.read().decode('utf-8')
 
-        jsonObj = json.loads(str(response))
+        jsonObj = json.loads(str(last_match_info))
 
         if jsonObj['result']['status'] == 15:
             reportFailure(bot, requester, jsonObj['result']['statusDetail'])
@@ -20,10 +21,11 @@ def lastMatch(bot, requester):
 
         time.sleep(1)
         request_url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key={0}&match_id={1}".format(steam_api_key, match_id)
-        with urllib.request.urlopen(request_url) as f:
-            response = f.read().decode('utf-8')
+        print('Requesting: {0}'.format(request_url))
+        response2 = urllib.request.urlopen(request_url)
+        last_match = response2.read().decode('utf-8')
 
-        jsonObj = json.loads(str(response))
+        jsonObj = json.loads(str(last_match))
         player_win = jsonObj['result']['radiant_win']
         duration = getDurationString(jsonObj['result']['duration'])
         player_slot = 0
