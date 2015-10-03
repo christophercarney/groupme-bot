@@ -20,7 +20,11 @@ def main(groupName):
         if alreadyParsed == False:
             for message in cur:
                 requester = message.name.split(' ')[0]
-                print('recieved message {0} ({1}) from {2}'.format(message.text.encode('utf-8'), message.created_at, requester))
+                if not message.text:
+                    print('recived image ({0}) from {1}'.format(message.created_at, requester))
+                    continue
+                else:
+                    print('recieved message {0} ({1}) from {2}'.format(message.text.encode('utf-8'), message.created_at, requester))
                 if message.text[0] == '!':
                     command = message.text.split(' ')
                     if command[0] == '!stats':
@@ -69,8 +73,8 @@ def main(groupName):
                     utils.thanks(g_thisBot, requester)
 					
         alreadyParsed = True
-        print('sleeping for 5')
-        time.sleep(5)
+        print('sleeping for 3')
+        time.sleep(3)
         try:
             refreshGroup(groupName)
             new_messages = g_thisGroup.message_count
@@ -109,3 +113,4 @@ def refreshBot():
 
 if __name__ == '__main__':
     main(sys.argv[1])
+    #main("Test")
