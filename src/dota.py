@@ -79,7 +79,7 @@ def getHeroNameFromId(id):
 
 def getAPIKey():
     f = open('../.steam.key', 'r')
-    return f.readline()
+    return f.readline().rstrip()
 
 def populateSteamIds():
     f = open('../assets/steamids.txt', 'r')
@@ -87,7 +87,7 @@ def populateSteamIds():
     dict = {}
 
     for i in range(len(input) - 1):
-        dict[input[i]] = input[i+1]
+        dict[input[i].rstrip()] = input[i+1].rstrip()
 
     return dict
 
