@@ -56,10 +56,14 @@ def main(groupName):
                             g_thisBot.post('Couldn\'t understand !register command, use !commands for usages')
                     elif command[0] == '!commands':
                         utils.commands(g_thisBot)
-                    elif command[0] == '!thanks':
-                        utils.thanks(g_thisBot, requester)
                     elif command[0] == '!stop':
                         sys.exit(0) if requester in g_admins else None
+                elif 'thanks brobot' in message.text.lower() or \
+                    'thanks, brobot' in message.text.lower() or \
+                    'thanks bro bot' in message.text.lower() or \
+                    'thanks, bro bot' in message.text.lower():
+                    utils.thanks(g_thisBot, requester)
+					
         alreadyParsed = True
         print('sleeping for 5')
         time.sleep(5)
