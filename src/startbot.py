@@ -23,16 +23,18 @@ def main(groupName):
                     command = message.text.split(' ')
                     if command[0] == '!stats':
                         stats.stats(g_thisBot, g_thisGroup)
-                    elif command[0] == '!kappa':
+                    elif command[0].lower() == '!kappa':
                         twitch.kappa(g_thisBot)
-                    elif command[0] == '!biblethump':
+                    elif command[0].lower() == '!elegiggle':
+                        twitch.elegiggle(g_thisBot)                        
+                    elif command[0].lower() == '!biblethump':
                         twitch.biblethump(g_thisBot)
-                    elif command[0] == '!kreygasm':
-                        twitch.kreygasm(g_thisBot)
-                    elif command[0] == '!elegiggle':
-                        twitch.elegiggle(g_thisBot)
-                    elif command[0] == '!dansgame':
+                    elif command[0].lower() == '!dansgame':
                         twitch.dansgame(g_thisBot)
+                    elif command[0].lower() == '!kreygasm':
+                        twitch.kreygasm(g_thisBot)
+                    elif command[0].lower() == '!4head':
+                        twitch.fourhead(g_thisBot)
                     elif command[0] == '!roll':
                         try:
                             range = int(command[1])
