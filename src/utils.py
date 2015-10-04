@@ -1,4 +1,4 @@
-import groupy
+﻿import groupy, os, dbm
 from groupy import Bot, Group
 
 #whenever you add a command please add it and and short description to this list, one per line
@@ -28,3 +28,38 @@ def commands(bot):
 
 def thanks(bot, requester):
     bot.post('You\'re welcome, {0}.'.format(requester))
+
+def cacheEmotes(twitchObj):
+    makeCacheDir()
+    print('Caching twitch emotes...', end='')
+    emoteCache = open('..{0}cache{0}twitch.cache'.format(os.path.sep), 'w')
+    for member in vars(twitchObj):
+        emoteCache.write('{0} {1} '.format(member, getattr(twitchObj, member)))
+    emoteCache.close
+    print('finsihed.')
+
+def readCache(obj, cacheName):
+    cachePath = '..{0}cache{0}{1}'.format(os.path.sep, cacheName)
+    print('Reading cache from {0} ...'.format(cachePath), end='')
+    currentCache = open(cachePath, 'r')
+    list = currentCache.read().split(' ')
+    for i in range(len(list) - 1):
+        obj.__dict__[list[i].rstrip()] = list[i+1].rstrip()
+    currentCache.close()
+    print('finished.')
+
+def cacheExists(cacheName):
+    print('Checking for cache {0}...'.format(cacheName), end='')
+    cacheList = os.listdir('..{0}cache{0}'.format(os.path.sep))
+    for name in cacheList:
+        if cacheName in name:
+            print('found.')
+            return True
+    print('not found.')
+    return False
+
+def makeCacheDir():
+    if not os.path.exists('..{0}cache'.format(os.path.sep)):
+        print('Making cache dir ..{0}cache...'.format(os.path.sep), end='')
+        os.mkdir('..{0}cache'.format(os.path.sep))
+        print('finished.')
