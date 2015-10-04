@@ -11,6 +11,7 @@ class emotes():
     m_dansgameImage = None
     m_kreygasm = None
     m_fourheadImage = None
+    m_pogchampImage = None
 
     def __init__(self):
         if utils.cacheExists('twitch.cache'):
@@ -22,6 +23,7 @@ class emotes():
             self.m_dansgameImage = attachments.Image.file(open('..' + os.path.sep + 'assets' + os.path.sep + 'dansgame.jpg','rb')).url
             self.m_kreygasmImage = attachments.Image.file(open('..' + os.path.sep + 'assets' + os.path.sep + 'kreygasm.jpg','rb')).url
             self.m_fourheadImage = attachments.Image.file(open('..' + os.path.sep + 'assets' + os.path.sep + '4head.png','rb')).url
+            self.m_pogchampImage = attachments.Image.file(open('..' + os.path.sep + 'assets' + os.path.sep + 'pogchamp.jpg','rb')).url
             utils.cacheEmotes(self)
 
     def kappa(self,bot):        
@@ -41,3 +43,6 @@ class emotes():
        
     def fourhead(self,bot):      
         bot.post(self.m_fourheadImage)
+        
+    def pogchamp(self,bot):
+        post.post(self.m_pogchampImage)
