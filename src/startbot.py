@@ -45,9 +45,9 @@ class startBot():
                             thisTwitch.kreygasm(self.m_thisBot)
                         elif command[0].lower() == '!4head':
                             thisTwitch.fourhead(self.m_thisBot)
-                        elif command[0].lower() == '!4pogchamp':
+                        elif command[0].lower() == '!pogchamp':
                             thisTwitch.pogchamp(self.m_thisBot)     
-                        elif command[0].lower() == '!4notlikethis':
+                        elif command[0].lower() == '!notlikethis':
                             thisTwitch.notlikethis(self.m_thisBot)   
                         elif command[0] == '!roll':
                             try:

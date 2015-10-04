@@ -47,7 +47,7 @@ class emotes():
         bot.post(self.m_fourheadImage)
         
     def pogchamp(self,bot):
-        post.post(self.m_pogchampImage)
+        bot.post(self.m_pogchampImage)
         
     def notlikethis(self,bot):
-        post.post(self.m_notlikethisImage)        
+        bot.post(self.m_notlikethisImage)        
