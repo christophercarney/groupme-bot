@@ -141,6 +141,8 @@ def makeImage(items):
     itemImages = []
     fullImage = Image.new('RGB', (600,300))
     for item in items:
+        if item == 'unknown':
+            continue
         ensureImageExists(item)
         cur = Image.open('..{0}assets{0}items{0}{1}.png'.format(os.path.sep, item))
         cur.thumbnail((100,75))
