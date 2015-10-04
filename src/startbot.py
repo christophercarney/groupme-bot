@@ -71,8 +71,9 @@ class startBot():
                         elif command[0] == '!stop':
                             if requester in self.m_admins:
                                 return              
-                            else:
-                                None
+                        elif command[0] == '!clearcache':
+                            if requester in self.m_admins:
+                                utils.clearCache()
                     elif 'thanks brobot' in message.text.lower() or \
                         'thanks, brobot' in message.text.lower() or \
                         'thanks bro bot' in message.text.lower() or \
@@ -80,7 +81,7 @@ class startBot():
                         utils.thanks(self.m_thisBot, requester)
 
             alreadyParsed = True
-            print('sleeping for 3')
+            print('sleeping for 3s ', end='')
             time.sleep(3)
             try:
                 self.refreshGroup()

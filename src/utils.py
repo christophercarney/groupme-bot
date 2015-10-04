@@ -64,3 +64,13 @@ def makeCacheDir():
         print('Making cache dir ..{0}cache...'.format(os.path.sep), end='')
         os.mkdir('..{0}cache'.format(os.path.sep))
         print('finished.')
+
+def clearCache():
+    path = '..{0}cache{0}'.format(os.path.sep)
+    filesList = os.listdir(path)
+    for file in filesList:
+        fileToRemove = path + file
+        print('Removing {0}...'.format(fileToRemove), end='')
+        os.remove(path + file)
+        print('finsihed.')
+    print('Cache has been successfully cleared.')
