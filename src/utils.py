@@ -49,6 +49,7 @@ def readCache(obj, cacheName):
     print('finished.')
 
 def cacheExists(cacheName):
+    makeCacheDir()
     print('Checking for cache {0}...'.format(cacheName), end='')
     cacheList = os.listdir('..{0}cache{0}'.format(os.path.sep))
     for name in cacheList:
