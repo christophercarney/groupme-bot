@@ -70,7 +70,7 @@ def lastMatch(bot, requester):
 
         imgPath = makeImage(itemsName, hero, stats_dict)
         matchImage = groupy.attachments.Image.file(open(imgPath,'rb'))
-        bot.post(itemsImage.url)
+        bot.post(matchImage.url)
                         
     except Exception as e:
         reportFailure(bot, requester, e)
