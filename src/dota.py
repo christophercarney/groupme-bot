@@ -70,7 +70,10 @@ def lastMatch(bot, requester):
 
         imgPath = makeImage(itemsName, hero, stats_dict)
         matchImage = groupy.attachments.Image.file(open(imgPath,'rb'))
-        bot.post(matchImage.url)
+        if stats_dict['player_win'] is True:
+            bot.post("Looks like {0} won! Great job bro!".format(requester), matchImage.url)
+        else:
+            bot.post("Rough game bro, can't win 'em all; Get back out there!".format(requester), matchImage.url)
                         
     except Exception as e:
         reportFailure(bot, requester, e)
@@ -197,7 +200,7 @@ def makeImage(items, hero, stats_dict):
     fntBold = ImageFont.truetype('..{0}assets{0}{1}'.format(os.path.sep, 'arialbd.ttf'))
     drawing = ImageDraw.Draw(fullImage)
 
-    drawing.text((79,15), stats_dict['steam_name'], font = fntBold, fill=(255,255,255,255))
+    drawing.text((77,15), stats_dict['steam_name'], font = fntBold, fill=(255,255,255,255))
     if stats_dict['player_win'] is True:
         drawing.text((75,30), 'Won', font=fntBold, fill=(0,255,0,255))
     else:
