@@ -201,14 +201,14 @@ def makeImage(items, hero, stats_dict):
     fntBold = ImageFont.truetype('..{0}assets{0}{1}'.format(os.path.sep, 'arialbd.ttf'))
     drawing = ImageDraw.Draw(fullImage)
 
-    drawing.text((77,5), stats_dict['steam_name'], font = fntBold, fill=(255,255,255,255))
+    drawing.text((76,7), stats_dict['steam_name'], font = fntBold, fill=(255,255,255,255))
     if stats_dict['player_win'] is True:
         drawing.text((75,20), 'Won', font=fntBold, fill=(0,255,0,255))
     else:
-        drawing.text((75,20), 'Lost', font=fntBold, fill=(255,0,0,255))
-    drawing.text((100,20), stats_dict['duration'], font=fnt, fill=(255,255,255,255))
-    drawing.text((75,35), 'Match ID: {0}'.format(stats_dict['match_id']), font=fnt, fill=(255,255,255,255))
-    drawing.text((75,50), stats_dict['start_time'], font=fnt, fill=(255,255,255,255))
+        drawing.text((75,22), 'Lost', font=fntBold, fill=(255,0,0,255))
+    drawing.text((100,22), stats_dict['duration'], font=fnt, fill=(255,255,255,255))
+    drawing.text((75,37), 'Match ID: {0}'.format(stats_dict['match_id']), font=fnt, fill=(255,255,255,255))
+    drawing.text((75,48), stats_dict['start_time'], font=fnt, fill=(255,255,255,255))
     drawing.text((140,60), '{0}/{1}/{2} K/D/A'.format(stats_dict['kills'], stats_dict['deaths'], stats_dict['assists']), font=fnt, fill=(255,255,255,255))
     drawing.text((140,72), '{0} LH / {1} DN'.format(stats_dict['last_hits'], stats_dict['denies']), font=fnt, fill=(255,255,255,255))
     drawing.text((140,84), '{0} GPM, {1} XPM'.format(stats_dict['gpm'], stats_dict['xpm']), font=fnt, fill=(255,255,255,255))
