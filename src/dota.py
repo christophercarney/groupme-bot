@@ -68,7 +68,7 @@ def lastMatch(bot, requester):
         imgPath = makeImage(itemsName)
         itemsImage = groupy.attachments.Image.file(open(imgPath,'rb'))
 
-        bot.post("{0} {11} a game as {1} in {2} minutes, went {3}/{4}/{5} K/D/A with {6}LH/{7}DN. XPM: {8}, GPM: {9}. {10}".format(
+        bot.post("{0} {11} a game as {1} in {2} minutes, went {3}/{4}/{5} K/D/A with {6} LH / {7} DN. XPM: {8}, GPM: {9}. {10}".format(
                  requester, hero, duration, kills, deaths, assists, last_hits, denies, xpm, gpm, dotabuff_url, 'won' if player_win == True else 'lost'))
         time.sleep(1)
         bot.post(itemsImage.url)
