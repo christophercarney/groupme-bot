@@ -201,11 +201,11 @@ def makeImage(items, hero, stats_dict):
     fntBold = ImageFont.truetype('..{0}assets{0}{1}'.format(os.path.sep, 'arialbd.ttf'))
     drawing = ImageDraw.Draw(fullImage)
 
-    drawing.text((76,7), stats_dict['steam_name'], font = fntBold, fill=(255,255,255,255))
+    drawing.text((76,9), stats_dict['steam_name'], font = fntBold, fill=(255,255,255,255))
     if stats_dict['player_win'] is True:
-        drawing.text((75,20), 'Won', font=fntBold, fill=(0,255,0,255))
+        drawing.text((75,23), 'Won', font=fntBold, fill=(0,255,0,255))
     else:
-        drawing.text((75,22), 'Lost', font=fntBold, fill=(255,0,0,255))
+        drawing.text((75,23), 'Lost', font=fntBold, fill=(255,0,0,255))
     drawing.text((100,22), stats_dict['duration'], font=fnt, fill=(255,255,255,255))
     drawing.text((75,37), 'Match ID: {0}'.format(stats_dict['match_id']), font=fnt, fill=(255,255,255,255))
     drawing.text((75,48), stats_dict['start_time'], font=fnt, fill=(255,255,255,255))
