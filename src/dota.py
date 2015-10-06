@@ -71,6 +71,7 @@ def lastMatch(bot, requester):
 
         imgPath = makeImage(itemsName, hero, stats_dict)
         matchImage = groupy.attachments.Image.file(open(imgPath,'rb'))
+        bot.post(dotabuff_url)
         if stats_dict['player_win'] is True:
             bot.post("Looks like {0} won! Great job bro!".format(requester), matchImage.url)
         else:
