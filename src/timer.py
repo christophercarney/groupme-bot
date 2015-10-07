@@ -19,7 +19,7 @@ class alarm():
         
     def setAlarm(self,text,bot):
         try:
-            hours = 0; minutes = 0
+            hours = 0; minutes = 0; seconds = 0
             if "-h" in text:
                 hours = text[(text.find("-h")):].split()[1]
             if "-m" in text:
