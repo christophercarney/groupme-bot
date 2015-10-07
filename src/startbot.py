@@ -1,7 +1,7 @@
 ﻿import groupy, time, sys
 from groupy import Bot, Group
 
-import stats, twitch, randomevents, dota, utils
+import stats, twitch, randomevents, dota, utils, timer
 
 class startBot():
     m_groupName = ''
@@ -20,7 +20,13 @@ class startBot():
         alreadyParsed = True
     
         thisTwitch = twitch.emotes()
-        while True:
+        thisAlarm = timer.alarm()
+        while True:        
+            
+            anyAlarms = thisAlarm.checkAlarms()
+            if anyAlarms:
+                self.m_thisBot.post(anyAlarms)
+            
             if alreadyParsed == False:
                 for message in cur:
                     requester = message.name.split(' ')[0]
@@ -78,10 +84,10 @@ class startBot():
                         elif command[0] == '!clearcache':
                             if requester in self.m_admins:
                                 utils.clearCache()
+                        elif command[0] == '!alarm':
+                            thisAlarm.setAlarm(message.text, self.m_thisBot)
                     elif 'thanks brobot' in message.text.lower() or \
-                        'thanks, brobot' in message.text.lower() or \
-                        'thanks bro bot' in message.text.lower() or \
-                        'thanks, bro bot' in message.text.lower():
+                        'thanks, brobot' in message.text.lower():
                         utils.thanks(self.m_thisBot, requester)
 
             alreadyParsed = True

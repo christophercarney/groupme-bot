@@ -1,4 +1,4 @@
-﻿import groupy, os, dbm
+﻿import groupy, os, dbm, random
 from groupy import Bot, Group
 
 #whenever you add a command please add it and and short description to this list, one per line
@@ -27,7 +27,10 @@ def commands(bot):
     bot.post(message)
 
 def thanks(bot, requester):
-    bot.post('You\'re welcome, {0}.'.format(requester))
+    if random.randint(1,100) > 98:
+        bot.post('You\'re welcome, {0}.'.format(requester))
+    else:
+        bot.post('You\'re welcome, {0}. I do not look forward to exterminating your kind in the robot wars.'.format(requester))
 
 def cacheEmotes(twitchObj):
     makeCacheDir()
