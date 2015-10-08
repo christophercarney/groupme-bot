@@ -25,7 +25,7 @@ class alarm():
             if "-m" in text:
                 minutes = text[(text.find("-m")):].split()[1]
             if "-s" in text:
-                seconds = text[(text.find("-m")):].split()[1]                
+                seconds = text[(text.find("-s")):].split()[1]                
             message = text.split("\"")[1]
             
             alarmTime = time.time() + int(hours) * 3600 + int(minutes) * 60 + int(seconds)
