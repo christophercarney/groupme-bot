@@ -19,14 +19,22 @@ class alarm():
         
     def setAlarm(self,text,bot):
         try:
+            text = text.replace('!alarm ','')
+            
+            allFlags = re.findall('-\w \d+',text)
+            
             hours = 0; minutes = 0; seconds = 0
-            if "-h" in text:
-                hours = text[(text.find("-h")):].split()[1]
-            if "-m" in text:
-                minutes = text[(text.find("-m")):].split()[1]
-            if "-s" in text:
-                seconds = text[(text.find("-s")):].split()[1]                
-            message = text.split("\"")[1]
+            
+            for currentFlag in allFlags:
+                text = text.replace(currentFlag,'')
+                if "-h" in currentFlag:
+                    hours = int(currentFlag[2:])
+                if "-m" in currentFlag:
+                    minutes = int(currentFlag[2:])
+                if "-s" in currentFlag:
+                    seconds = int(currentFlag[2:])
+                    
+            message = text.strip()
             
             alarmTime = time.time() + int(hours) * 3600 + int(minutes) * 60 + int(seconds)
             

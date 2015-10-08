@@ -27,7 +27,7 @@ def commands(bot):
     bot.post(message)
 
 def thanks(bot, requester):
-    if random.randint(1,100) > 98:
+    if random.randint(1,100) < 98:
         bot.post('You\'re welcome, {0}.'.format(requester))
     else:
         bot.post('You\'re welcome, {0}. I do not look forward to exterminating your kind in the robot wars.'.format(requester))
