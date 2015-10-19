@@ -55,6 +55,7 @@ class alarm():
                     line = re.sub(r'{}.*'.format(alarm), r'', line.rstrip())
                 message = self.messageDictionary[alarm]
                 self.messageDictionary.pop(alarm,0)
+                fileinput.close()
                 return message
         
                 
