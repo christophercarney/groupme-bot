@@ -1,7 +1,10 @@
-﻿import groupy, time, sys
+﻿import groupy, time, sys, os
 from groupy import Bot, Group
 
 import stats, twitch, randomevents, dota, utils, timer, markov
+
+if os.name == 'posix':
+    import resource
 
 class startBot():
     m_groupName = ''
@@ -37,6 +40,10 @@ class startBot():
                         print('recieved message {0} ({1}) from {2}'.format(message.text.encode('utf-8'), message.created_at, requester))
                     if message.text[0] == '!':
                         command = message.text.split(' ')
+                        try:
+                            resource.getrusage(resource.RUSAGE_SELF)
+                        except:
+                            pass
                         if command[0] == '!stats':
                             stats.stats(self.m_thisBot, self.m_thisGroup)
                         elif command[0].lower() == '!kappa':
