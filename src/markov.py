@@ -51,6 +51,8 @@ class markov():
         response=''
         while True:
             neword=nextword(s)
+            while'http' in neword:
+                neword=nextword(s)
             response+=' '+neword
             s=neword
             if neword[-1] in ',?!.':
