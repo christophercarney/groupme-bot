@@ -41,7 +41,7 @@ class startBot():
                     if message.text[0] == '!':
                         command = message.text.split(' ')
                         try:
-                            resource.getrusage(resource.RUSAGE_SELF)
+                            print(resource.getrusage(resource.RUSAGE_SELF))
                         except:
                             pass
                         if command[0] == '!stats':
