@@ -182,6 +182,9 @@ def stats(broBot, brothers):
 def getAllText(groupObj, groupName):
     output_text = ''
     all_text = ''
+    if os.path.exists("..{1}cache{1}messages-{0}.txt...".format(groupName, os.path.sep)):
+        print("found existing messages cached, continuing lexicon generation..")
+        return
     print("Compiling all messages to ..{1}cache{1}messages-{0}.txt...".format(groupName, os.path.sep))
     num_messages, initial_count = groupObj.message_count, groupObj.message_count
 

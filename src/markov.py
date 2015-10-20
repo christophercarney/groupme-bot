@@ -14,7 +14,7 @@ class markov():
         print('not found. Generating...', end='')
 
         stats.getAllText(groupObj, groupName)
-        b=open('..{1}cache{1}messages-{0}.txt'.format(groupName, os.path.sep))
+        b=open('..{1}cache{1}messages-{0}.txt'.format(groupName, os.path.sep), encoding='utf-8')
         text=[]
         for line in b:
             for word in line.split():
