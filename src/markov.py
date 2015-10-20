@@ -44,7 +44,10 @@ class markov():
             else:
                 return 'the'
         speech=message
-        s=random.choice(speech.split())
+        try:
+            s=random.choice(speech.split())
+        except:
+            s = speech.split()[0]
         response=''
         while True:
             neword=nextword(s)
