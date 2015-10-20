@@ -1,7 +1,7 @@
 ﻿import groupy, time, sys
 from groupy import Bot, Group
 
-import stats, twitch, randomevents, dota, utils, timer
+import stats, twitch, randomevents, dota, utils, timer, markov
 
 class startBot():
     m_groupName = ''
@@ -21,8 +21,8 @@ class startBot():
     
         thisTwitch = twitch.emotes()
         thisAlarm = timer.alarm()
-        while True:        
-            
+        thisMarkov = markov.markov(self.m_thisGroup, self.m_groupName)
+        while True:                   
             anyAlarms = thisAlarm.checkAlarms()
             if anyAlarms:
                 self.m_thisBot.post(anyAlarms)
@@ -89,6 +89,8 @@ class startBot():
                     elif 'thanks brobot' in message.text.lower() or \
                         'thanks, brobot' in message.text.lower():
                         utils.thanks(self.m_thisBot, requester)
+                    elif 'brobot' in message.text.lower().rstrip():
+                        thisMarkov.talk(message.text, self.m_thisBot, self.m_groupName)
 
             alreadyParsed = True
             print('sleeping for 3s ', end='')
