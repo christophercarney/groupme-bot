@@ -6,7 +6,7 @@ def getAllText(groupObj, groupName, botName):
     output_text = ''
     all_text = ''
     if os.path.exists("..{1}cache{1}messages-{0}.txt".format(groupName, os.path.sep)):
-        utils.showOutput("found existing messages cached, continuing lexicon generation..")
+        utils.showOutput("found existing messages cached, continuing lexicon generation...", end='')
         return
     utils.showOutput("Compiling all messages to ..{1}cache{1}messages-{0}.txt...".format(groupName, os.path.sep))
     num_messages, initial_count = groupObj.message_count, groupObj.message_count
