@@ -1,4 +1,4 @@
-﻿import groupy, time, sys, os
+﻿import groupy, time, sys, os, argparse, subprocess
 from groupy import Bot, Group
 
 import stats, twitch, randomevents, dota, utils, timer, markov
@@ -118,7 +118,10 @@ class startBot():
             utils.thanks(self.m_thisBot, requester)
         elif '{0},'.format(self.m_thisBot.name.lower()) in message.text.lower() or \
               ', {0}'.format(self.m_thisBot.name.lower()) in message.text.lower():
-            self.m_thisMarkov.talk(message.text, self.m_thisBot, self.m_groupName)
+            try:
+                self.m_thisMarkov.talk(message.text, self.m_thisBot, self.m_groupName)
+            except:
+                self.m_thisBot.post("Sorry, I'm not very talkative right now...")
 
     def refreshGroup(self):
         groups = groupy.Group.list()
@@ -140,10 +143,23 @@ class startBot():
             utils.showOutput("Cannot find bot for group {0}".format(groupName), verbosity=utils.INFO_LEVEL_Important)
             sys.exit(0)
 
-def main(groupName):
+def main():
+    parser = argparse.ArgumentParser(description='Run the groupme bot')
+    parser.add_argument('-v', '--verbosity', dest='inputVerbosity', metavar='N', type=int, default=3, help='an integer for verbosity level, 0 is no output')
+    parser.add_argument('group', type=str, metavar='GROUP', help='group name for which a registered bot belongs')
+    args = parser.parse_args()
+
+    if args.inputVerbosity >=4 or args.inputVerbosity < 0:
+        utils.VERBOSITY_LEVEL = 3
+    else:
+        utils.VERBOSITY_LEVEL = args.inputVerbosity
+    
+    initAndRun(args.group)
+
+def initAndRun(groupName):
     myBot = startBot(groupName)
     myBot.runBot()
-    sys.exit(0)
+
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    main()
