@@ -43,7 +43,7 @@ class startBot():
                      
                     if message.text[0] == '!' and message.name != self.m_thisBot.name:
                         self.checkAndEvaluateCommand(message, message.name)             #getting a little unwieldy, we'll hook in through this method now
-                    elif message.name == self.m_thisBot.name:    
+                    elif message.name != self.m_thisBot.name:    
                         self.checkAndEvaluateMessage(message, message.name)            #same thing but for misc. events happening only from test
             
             messageAlreadyParsed = True
