@@ -14,7 +14,7 @@ def getAllText(groupObj, groupName, botName):
     cur = groupObj.messages()
     while num_messages > 0:
         for message in cur:
-            if message.text is None or message.name == botName:
+            if message.text is None or message.name.lower() == botName.lower():
                 continue
             all_text = all_text + message.text + ' '          
         try:
