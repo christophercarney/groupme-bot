@@ -1,4 +1,5 @@
 ﻿import startbot, stats, os, re, random, sys
+import utils
 
 MARKOV_LENGTH = 2
 
@@ -33,7 +34,7 @@ class markov():
     def train(self, groupObj, groupName):
         stats.getAllText(groupObj, groupName, self.m_botName)
         self.buildMapping(self.wordlist('..{1}cache{1}messages-{0}.txt'.format(groupName, os.path.sep)), MARKOV_LENGTH)
-        print("bot successfully trained.")
+        utils.showOutput("bot successfully trained.")
 
     def talk(self, message, bot, groupName):
         try:

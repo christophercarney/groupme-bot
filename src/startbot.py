@@ -37,10 +37,10 @@ class startBot():
                         continue
                     requester = message.name.split(' ')[0]
                     if not message.text:
-                        print('recived image ({0}) from {1}'.format(message.created_at, requester))
+                        utils.showOutput('recived image ({0}) from {1}'.format(message.created_at, requester))
                         continue
                     else:
-                        print('recieved message {0} ({1}) from {2}'.format(message.text.encode('utf-8'), message.created_at, requester))
+                        utils.showOutput('recieved message {0} ({1}) from {2}'.format(message.text.encode('utf-8'), message.created_at, requester), verbosity=utils.INFO_LEVEL_Useful)
                         
                     if message.text[0] == '!':
                         self.checkAndEvaluateCommand(message, requester)             #getting a little unwieldy, we'll hook in through this method now
@@ -48,19 +48,19 @@ class startBot():
                         self.checkAndEvaluateMessage(message, requester)            #same thing but for misc. events happening only from test
             
             messageAlreadyParsed = True
-            print('sleeping for {0}s '.format(SLEEP_INTERVAL), end='')
+            utils.showOutput('sleeping for {0}s '.format(SLEEP_INTERVAL), end='')
             time.sleep(SLEEP_INTERVAL)
             try:
                 self.refreshGroup()
                 new_messages = self.m_thisGroup.message_count
-                print('started with {0} messages, now see {1}'.format(start_messages, new_messages))
+                utils.showOutput('started with {0} messages, now see {1}'.format(start_messages, new_messages))
                 if (new_messages - start_messages) > 0:
                     cur = cur.newer()
                     start_messages = new_messages
-                    print('retrieved {0} new messages'.format(len(cur)))
+                    utils.showOutput('retrieved {0} new messages'.format(len(cur)))
                     messageAlreadyParsed = False
             except Exception as e:
-                print(e)
+                utils.showOutput(e)
 
     def checkAndEvaluateCommand(self, message, requester):
         command = message.text.split(' ')
@@ -127,7 +127,7 @@ class startBot():
                 self.m_thisGroup = group
                 break
         if self.m_thisGroup is None:
-            print("Cannot find group {0} \n".format(groupName))
+            utils.showOutput("Cannot find group {0}".format(groupName), verbosity=utils.INFO_LEVEL_Important)
             sys.exit(0)
 
     def refreshBot(self):
@@ -137,7 +137,7 @@ class startBot():
                 self.m_thisBot = bot
                 break
         if self.m_thisBot is None:
-            print("Cannot find bot for group {0} \n".format(groupName))
+            utils.showOutput("Cannot find bot for group {0}".format(groupName), verbosity=utils.INFO_LEVEL_Important)
             sys.exit(0)
 
 def main(groupName):

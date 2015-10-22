@@ -1,13 +1,14 @@
 ﻿import groupy, time, os
 from groupy import Bot, Group
+import utils
 
 def getAllText(groupObj, groupName, botName):
     output_text = ''
     all_text = ''
     if os.path.exists("..{1}cache{1}messages-{0}.txt".format(groupName, os.path.sep)):
-        print("found existing messages cached, continuing lexicon generation..")
+        utils.showOutput("found existing messages cached, continuing lexicon generation..")
         return
-    print("Compiling all messages to ..{1}cache{1}messages-{0}.txt...".format(groupName, os.path.sep))
+    utils.showOutput("Compiling all messages to ..{1}cache{1}messages-{0}.txt...".format(groupName, os.path.sep))
     num_messages, initial_count = groupObj.message_count, groupObj.message_count
 
     start = time.time()
@@ -22,10 +23,10 @@ def getAllText(groupObj, groupName, botName):
         except: 
             pass
         num_messages = num_messages - 100
-        print ('{0} messages remain'.format(num_messages))
+        utils.showOutput ('{0} messages remain'.format(num_messages))
     
     f = open('..{1}cache{1}messages-{0}.txt'.format(groupName, os.path.sep), 'w+', encoding='utf-8')
     f.write(all_text)
     f.close()
-    print("completed.")
+    utils.showOutput("completed.")
 

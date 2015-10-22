@@ -8,9 +8,14 @@ g_commandsList = {'!lastmatch': 'retrieves the last match of the current user',
                   '!roll [HIGHEST]': 'rolls a virutal dice between 1-HIGHEST, if highest is not specified, 6 is assumed',
                   '!flip': 'flips a virtual coin',
                   '![TWITCH_EMOTICON]': 'various twitch emoticons are available to use',
-                  '!stats': 'prints a lot of statistics about this chat history (please use sparingly)',
-                  '!commands': 'prints this list'
+                  '!commands': 'prints this list',
+                  '!alarm -h H -m M -s S [message]': 'sets an alarm to go off in the given H:M:S to output message'
                   }
+
+VERBOSITY_LEVEL = 3
+INFO_LEVEL_RarelyUseful = 3
+INFO_LEVEL_Useful = 2
+INFO_LEVEL_Important = 1
 
 def commands(bot):
     character_count = 0
@@ -34,46 +39,50 @@ def thanks(bot, requester):
 
 def cacheEmotes(twitchObj):
     makeCacheDir()
-    print('Caching twitch emotes...', end='')
+    showOutput('Caching twitch emotes...', end='')
     emoteCache = open('..{0}cache{0}twitch.cache'.format(os.path.sep), 'w')
     for member in vars(twitchObj):
         emoteCache.write('{0} {1} '.format(member, getattr(twitchObj, member)))
     emoteCache.close
-    print('finsihed.')
+    showOutput('finsihed.')
 
 def readCache(obj, cacheName):
     cachePath = '..{0}cache{0}{1}'.format(os.path.sep, cacheName)
-    print('Reading cache from {0} ...'.format(cachePath), end='')
+    showOutput('Reading cache from {0} ...'.format(cachePath), end='')
     currentCache = open(cachePath, 'r')
     list = currentCache.read().split(' ')
     for i in range(len(list) - 1):
         obj.__dict__[list[i].rstrip()] = list[i+1].rstrip()
     currentCache.close()
-    print('finished.')
+    showOutput('finished.')
 
 def cacheExists(cacheName):
     makeCacheDir()
-    print('Checking for cache {0}...'.format(cacheName), end='')
+    showOutput('Checking for cache {0}...'.format(cacheName), end='')
     cacheList = os.listdir('..{0}cache{0}'.format(os.path.sep))
     for name in cacheList:
         if cacheName in name:
-            print('found.')
+            showOutput('found.')
             return True
-    print('not found.')
+    showOutput('not found.')
     return False
 
 def makeCacheDir():
     if not os.path.exists('..{0}cache'.format(os.path.sep)):
-        print('Making cache dir ..{0}cache...'.format(os.path.sep), end='')
+        showOutput('Making cache dir ..{0}cache...'.format(os.path.sep), end='')
         os.mkdir('..{0}cache'.format(os.path.sep))
-        print('finished.')
+        showOutput('finished.')
 
 def clearCache():
     path = '..{0}cache{0}'.format(os.path.sep)
     filesList = os.listdir(path)
     for file in filesList:
         fileToRemove = path + file
-        print('Removing {0}...'.format(fileToRemove), end='')
+        showOutput('Removing {0}...'.format(fileToRemove), end='')
         os.remove(path + file)
-        print('finsihed.')
-    print('Cache has been successfully cleared.')
+        showOutput('finsihed.')
+    showOutput('Cache has been successfully cleared.')
+
+def showOutput(message, verbosity=2, end='\n'):
+    if VERBOSITY_LEVEL >= verbosity:
+        print(message, end=end)
