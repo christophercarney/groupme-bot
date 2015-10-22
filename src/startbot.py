@@ -8,90 +8,40 @@ class startBot():
     m_thisGroup = None
     m_thisBot = None
     m_admins = ['Christopher', 'Patrick']
+    m_thisTwitch = None
+    m_thisAlarm = None
+    m_thisMarkov = None
 
     def __init__(self, groupName):
         self.m_groupName = groupName
         self.refreshGroup()
         self.refreshBot()
+        self.m_thisTwitch = twitch.emotes()
+        self.m_thisAlarm = timer.alarm()
+        self.m_thisMarkov = markov.markov(self.m_thisGroup, self.m_groupName, self.m_thisBot)
 
     def runBot(self):
         cur = self.m_thisGroup.messages()
         start_messages = self.m_thisGroup.message_count
-        alreadyParsed = True
+        messageAlreadyParsed = True
     
-        thisTwitch = twitch.emotes()
-        thisAlarm = timer.alarm()
-        thisMarkov = markov.markov(self.m_thisGroup, self.m_groupName)
         while True:                   
-            anyAlarms = thisAlarm.checkAlarms()
+            anyAlarms = self.m_thisAlarm.checkAlarms()
             if anyAlarms:
                 self.m_thisBot.post(anyAlarms)          
-            if alreadyParsed == False:
+            if messageAlreadyParsed == False:
                 for message in cur:
+                    if message.name == self.m_thisBot.name:
+                        continue
                     requester = message.name.split(' ')[0]
                     if not message.text:
                         print('recived image ({0}) from {1}'.format(message.created_at, requester))
                         continue
                     else:
                         print('recieved message {0} ({1}) from {2}'.format(message.text.encode('utf-8'), message.created_at, requester))
-                    if message.text[0] == '!':
-                        command = message.text.split(' ')
-                        if command[0] == '!stats':
-                            stats.stats(self.m_thisBot, self.m_thisGroup)
-                        elif command[0].lower() == '!kappa':
-                            thisTwitch.kappa(self.m_thisBot)
-                        elif command[0].lower() == '!elegiggle':
-                            thisTwitch.elegiggle(self.m_thisBot)                        
-                        elif command[0].lower() == '!biblethump':
-                            thisTwitch.biblethump(self.m_thisBot)
-                        elif command[0].lower() == '!dansgame':
-                            thisTwitch.dansgame(self.m_thisBot)
-                        elif command[0].lower() == '!kreygasm':
-                            thisTwitch.kreygasm(self.m_thisBot)
-                        elif command[0].lower() == '!4head':
-                            thisTwitch.fourhead(self.m_thisBot)
-                        elif command[0].lower() == '!pogchamp':
-                            thisTwitch.pogchamp(self.m_thisBot)     
-                        elif command[0].lower() == '!notlikethis':
-                            thisTwitch.notlikethis(self.m_thisBot)   
-                        elif command[0] == '!roll':
-                            try:
-                                range = int(command[1])
-                                randomevents.roll(self.m_thisBot, requester, range=range+1)
-                            except:
-                                randomevents.roll(self.m_thisBot, requester)
-                        elif command[0] == '!flip':
-                            randomevents.flip(self.m_thisBot, requester)
-                        elif command[0] == '!lastmatch':
-                            if '-u' in message.text:
-                                try:
-                                    dota.lastMatch(self.m_thisBot, command[2])
-                                except:
-                                    self.m_thisBot.post("Couldn't understand command:{0} {1} {2}, please see !commands for usage".format(command[0], command[1], command[2]))
-                            else:
-                                dota.lastMatch(self.m_thisBot, requester)
-                        elif command[0] == '!register':
-                            try:
-                                dota.registerId(command[1], command[2], self.m_thisBot)
-                            except:
-                                self.m_thisBot.post('Couldn\'t understand !register command, use !commands for usages')
-                        elif command[0] == '!commands':
-                            utils.commands(self.m_thisBot)
-                        elif command[0] == '!stop':
-                            if requester in self.m_admins:
-                                return              
-                        elif command[0] == '!clearcache':
-                            if requester in self.m_admins:
-                                utils.clearCache()
-                        elif command[0] == '!alarm':
-                            thisAlarm.setAlarm(message.text, self.m_thisBot)
-                    elif 'thanks brobot' in message.text.lower() or \
-                        'thanks, brobot' in message.text.lower():
-                        utils.thanks(self.m_thisBot, requester)
-                    elif 'brobot' in message.text.lower().rstrip():
-                        thisMarkov.talk(message.text, self.m_thisBot, self.m_groupName)
-
-            alreadyParsed = True
+                    self.checkAndEvaluateCommand(message, requester)             #getting a little unwieldy, we'll hook in through this method now
+                    self.checkAndEvaluateMessage(message, requester)            #same thing but for misc. events happening only from test
+            messageAlreadyParsed = True
             print('sleeping for 3s ', end='')
             time.sleep(3)
             try:
@@ -102,9 +52,67 @@ class startBot():
                     cur = cur.newer()
                     start_messages = new_messages
                     print('retrieved {0} new messages'.format(len(cur)))
-                    alreadyParsed = False
+                    messageAlreadyParsed = False
             except Exception as e:
                 print(e)
+
+    def checkAndEvaluateCommand(self, message, requester):
+        if message.text[0] == '!':
+            command = message.text.split(' ')
+            if command[0].lower() == '!kappa':
+                self.m_thisTwitch.kappa(self.m_thisBot)
+            elif command[0].lower() == '!elegiggle':
+                self.m_thisTwitch.elegiggle(self.m_thisBot)                        
+            elif command[0].lower() == '!biblethump':
+                self.m_thisTwitch.biblethump(self.m_thisBot)
+            elif command[0].lower() == '!dansgame':
+                self.m_thisTwitch.dansgame(self.m_thisBot)
+            elif command[0].lower() == '!kreygasm':
+               self.m_thisTwitch.kreygasm(self.m_thisBot)
+            elif command[0].lower() == '!4head':
+               self.m_thisTwitch.fourhead(self.m_thisBot)
+            elif command[0].lower() == '!pogchamp':
+               self.m_thisTwitch.pogchamp(self.m_thisBot)     
+            elif command[0].lower() == '!notlikethis':
+                self.m_thisTwitch.notlikethis(self.m_thisBot)   
+            elif command[0] == '!roll':
+                try:
+                    range = int(command[1])
+                    randomevents.roll(self.m_thisBot, requester, range=range+1)
+                except:
+                    randomevents.roll(self.m_thisBot, requester)
+            elif command[0] == '!flip':
+                randomevents.flip(self.m_thisBot, requester)
+            elif command[0] == '!lastmatch':
+                if '-u' in message.text:
+                    try:
+                        dota.lastMatch(self.m_thisBot, command[2])
+                    except:
+                        self.m_thisBot.post("Couldn't understand command:{0} {1} {2}, please see !commands for usage".format(command[0], command[1], command[2]))
+                else:
+                    dota.lastMatch(self.m_thisBot, requester)
+            elif command[0] == '!register':
+                try:
+                    dota.registerId(command[1], command[2], self.m_thisBot)
+                except:
+                    self.m_thisBot.post('Couldn\'t understand !register command, use !commands for usages')
+            elif command[0] == '!commands':
+                utils.commands(self.m_thisBot)
+            elif command[0] == '!stop':
+                if requester in self.m_admins:
+                    return              
+            elif command[0] == '!clearcache':
+                if requester in self.m_admins:
+                    utils.clearCache()
+            elif command[0] == '!alarm':
+                self.m_thisAlarm.setAlarm(message.text, self.m_thisBot)
+
+    def checkAndEvaluateMessage(self, message, requester):
+        if 'thanks {0}'.format(self.m_thisBot.name.lower()) in message.text.lower() or \
+            'thanks, {0}'.format(self.m_thisBot.name.lower()) in message.text.lower():
+            utils.thanks(self.m_thisBot, requester)
+        elif '{0},'.format(self.m_thisBot.name.lower()) in message.text.lower():
+            self.m_thisMarkov.talk(message.text, self.m_thisBot, self.m_groupName)
 
     def refreshGroup(self):
         groups = groupy.Group.list()

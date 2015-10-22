@@ -24,16 +24,22 @@ class markov():
     # Contains the set of words that can start sentences
     starts = []
 
-    def __init__(self, groupObj, groupName):
+    m_botName = None
+
+    def __init__(self, groupObj, groupName, bot):
+        self.m_botName = bot.name
         self.train(groupObj, groupName)
 
     def train(self, groupObj, groupName):
-        stats.getAllText(groupObj, groupName)
+        stats.getAllText(groupObj, groupName, self.m_botName)
         self.buildMapping(self.wordlist('..{1}cache{1}messages-{0}.txt'.format(groupName, os.path.sep)), MARKOV_LENGTH)
         print("bot successfully trained.")
 
     def talk(self, message, bot, groupName):
-        bot.post(self.genSentence(MARKOV_LENGTH))
+        try:
+            bot.post(self.genSentence2(message, MARKOV_LENGTH))
+        except:
+            bot.post(self.genSentence(MARKOV_LENGTH))
 
     # We want to be able to compare words independent of their capitalization.
     def fixCaps(self, word):
@@ -114,6 +120,29 @@ class markov():
             if sum >= index and retval == "":
                 retval = k
         return retval
+
+    def genSentence2(self, message, markovLength):      #attempts to use input sentence material to construct a sentence
+        # Start with a random "starting word" from the input message
+        splitmessage = message.lower().split()
+        splitmessage.remove('{0},'.format(self.m_botName.lower()))
+        if len(splitmessage) == 0:
+            curr = random.choice(self.starts)
+        else:
+            curr = random.choice(splitmessage)
+
+        sent = curr.capitalize()
+        prevList = [curr]
+        # Keep adding words until we hit a period
+        while (curr not in "."):
+            curr = self.next(prevList)
+            prevList.append(curr)
+            # if the prevList has gotten too long, trim it
+            if len(prevList) > markovLength:
+                prevList.pop(0)
+            if (curr not in ".,!?;"):
+                sent += " " # Add spaces between words (but not punctuation)
+            sent += curr
+        return sent
 
     def genSentence(self, markovLength):
         # Start with a random "starting word"
