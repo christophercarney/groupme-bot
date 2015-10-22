@@ -111,7 +111,8 @@ class startBot():
         if 'thanks {0}'.format(self.m_thisBot.name.lower()) in message.text.lower() or \
             'thanks, {0}'.format(self.m_thisBot.name.lower()) in message.text.lower():
             utils.thanks(self.m_thisBot, requester)
-        elif '{0},'.format(self.m_thisBot.name.lower()) in message.text.lower():
+        elif '{0},'.format(self.m_thisBot.name.lower()) in message.text.lower() or \
+              ', {0}'.format(self.m_thisBot.name.lower()) in message.text.lower():
             self.m_thisMarkov.talk(message.text, self.m_thisBot, self.m_groupName)
 
     def refreshGroup(self):
