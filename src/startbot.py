@@ -13,6 +13,7 @@ class startBot():
     m_thisTwitch = None
     m_thisAlarm = None
     m_thisMarkov = None
+    m_thisDota = None
 
     def __init__(self, groupName):
         self.m_groupName = groupName
@@ -22,6 +23,7 @@ class startBot():
         self.m_thisTwitch = twitch.emotes()
         self.m_thisAlarm = timer.alarm()
         self.m_thisMarkov = markov.markov(self.m_thisGroup, self.m_groupName, self.m_thisBot)
+        self.m_thisDota = dota.dota()
         utils.showOutput('Bot initialized successfully...listening...', verbosity=utils.INFO_LEVEL_Useful)
 
     def runBot(self):
@@ -91,14 +93,16 @@ class startBot():
         elif command[0] == '!lastmatch':
             if '-u' in message.text:
                 try:
-                    dota.lastMatch(self.m_thisBot, command[2])
+                    self.m_thisDota.createMatch(command[2])
+                    self.m_thisDota.m_dotaMatch.lastMatch()
                 except:
                     self.m_thisBot.post("Couldn't understand command:{0} {1} {2}, please see !commands for usage".format(command[0], command[1], command[2]))
             else:
-                dota.lastMatch(self.m_thisBot, requester)
+                    self.m_thisDota.createMatch(requester)
+                    self.m_thisDota.m_dotaMatch.lastMatch()
         elif command[0] == '!register':
             try:
-                dota.registerId(command[1], command[2], self.m_thisBot)
+                dota.dota.registerId(command[1], command[2], self.m_thisBot)
             except:
                 self.m_thisBot.post('Couldn\'t understand !register command, use !commands for usages')
         elif command[0] == '!commands':
@@ -126,24 +130,30 @@ class startBot():
                 self.m_thisBot.post("Sorry, I'm not very talkative right now...")
 
     def refreshGroup(self):
-        groups = groupy.Group.list()
-        for group in groups:
-            if group.name == self.m_groupName:
-                self.m_thisGroup = group
-                break
-        if self.m_thisGroup is None:
-            utils.showOutput("Cannot find group {0}".format(groupName), verbosity=utils.INFO_LEVEL_Important)
-            sys.exit(0)
+        try:
+            groups = groupy.Group.list()
+            for group in groups:
+                if group.name == self.m_groupName:
+                    self.m_thisGroup = group
+                    break
+            if self.m_thisGroup is None:
+                utils.showOutput("Cannot find group {0}".format(groupName), verbosity=utils.INFO_LEVEL_Important)
+                sys.exit(0)
+        except:
+            pass
 
     def refreshBot(self):
-        bots = Bot.list()
-        for bot in bots:
-            if self.m_thisGroup.id == bot.gorup_id:
-                self.m_thisBot = bot
-                break
-        if self.m_thisBot is None:
-            utils.showOutput("Cannot find bot for group {0}".format(groupName), verbosity=utils.INFO_LEVEL_Important)
-            sys.exit(0)
+        try:
+            bots = Bot.list()
+            for bot in bots:
+                if self.m_thisGroup.id == bot.gorup_id:
+                    self.m_thisBot = bot
+                    break
+            if self.m_thisBot is None:
+                utils.showOutput("Cannot find bot for group {0}".format(groupName), verbosity=utils.INFO_LEVEL_Important)
+                sys.exit(0)
+        except: 
+            pass
 
     def getAdmins(self):
         adminFile = '..{0}assets{0}admins-{1}.txt'.format(os.path.sep, self.m_groupName)
