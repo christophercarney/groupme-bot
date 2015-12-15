@@ -118,15 +118,15 @@ class startBot():
         if 'thanks {0}'.format(self.m_thisBot.name.lower()) in message.text.lower() or \
             'thanks, {0}'.format(self.m_thisBot.name.lower()) in message.text.lower():
             utils.thanks(self.m_thisBot, requester)
+        elif '{0},'.format(self.m_thisBot.name.lower()) in message.text.lower() and "new patch" in message.text.lower() or \
+              ', {0}'.format(self.m_thisBot.name.lower()) in message.text.lower() and "new patch" in message.text.lower():
+            self.m_thisBot.post("pls mr lizard")
         elif '{0},'.format(self.m_thisBot.name.lower()) in message.text.lower() or \
               ', {0}'.format(self.m_thisBot.name.lower()) in message.text.lower():
             try:
                 self.m_thisMarkov.talk(message.text, self.m_thisBot, self.m_groupName)
             except:
                 self.m_thisBot.post("Sorry, I'm not very talkative right now...")
-        elif '{0},'.format(self.m_thisBot.name.lower()) in message.text.lower() and "new patch" in message.text.lower() or \
-              ', {0}'.format(self.m_thisBot.name.lower()) in message.text.lower() and "new patch" in message.text.lower():
-            self.m_thisBot.post("pls mr lizard")
             
     def refreshGroup(self):
         groups = groupy.Group.list()
